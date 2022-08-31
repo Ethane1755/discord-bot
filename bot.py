@@ -267,4 +267,4 @@ async def on_message(message):
         await message.channel.send('現在是:'+k+'時間')
         await message.channel.send('接下來是:'+m+'時間')
 
-client.run('MTAxNDE4ODg2OTUyMjA1MTEyMw.GI6wWA.YWyI01Ann7kNiSHz4byIJKrIsWxhEzeEGSf0y0')
+client.run('MTAxNDE4ODg2OTUyMjA1MTEyMw.GJmPcw.6JJAX2eAYyBvVYXLR9bXWgk_a2-7oIFgZOQRf8')
