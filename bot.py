@@ -1,10 +1,10 @@
 import os
 import requests
 import discord
+import random
 from datetime import datetime
 from discord.ext import commands
 from dotenv import load_dotenv
-import glob, random
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_BOT_SECRET')
@@ -94,7 +94,6 @@ async def on_message(message):
         if b>1600:
             k=d1[10]
             m=d1[10]
-
     if a==2:
         if b<=810:
             k=d2[0]
@@ -141,7 +140,6 @@ async def on_message(message):
         if b>1600:
             k=d2[10]
             m=d2[10]
-
     if a==3:
         if b<=810:
             k=d3[0]
@@ -188,7 +186,6 @@ async def on_message(message):
         if b>1600:
             k=d3[10]
             m=d3[10]
-
     if a==4:
         if b<=810:
             k=d4[0]
@@ -235,7 +232,6 @@ async def on_message(message):
         if b>1600:
             k=d4[10]
             m=d4[10]
-
     if a==5:
         if b<=810:
             k=d5[0]
