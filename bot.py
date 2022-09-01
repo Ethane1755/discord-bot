@@ -1,5 +1,5 @@
-# bot.py
 import os
+import requests
 import discord
 from datetime import datetime
 from discord.ext import commands
@@ -7,10 +7,28 @@ from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_BOT_SECRET')
-print(TOKEN)
+TOKEN1= os.getenv('WEATHER_API')
+
+base_url = "http://api.openweathermap.org/data/2.5/weather?"
+city_name = "Taipei"
+complete_url = base_url + "appid=" + TOKEN1 + "&q=" + city_name
+response = requests.get(complete_url)
+x = response.json()
+
+if x["cod"] != "404":
+    y = x["main"]
+    current_temperature = y["temp"]
+    current_pressure = y["pressure"]
+    current_humidity = y["humidity"]
+    z = x["weather"]
+    weather_description = z[0]["description"]
+else:
+    print(" City Not Found ")
+
 intents = discord.Intents.default()
 intents.message_content = True
 client = commands.Bot(command_prefix="!", intents=intents)
+
 @client.event
 async def on_message(message):
     time=str(message.created_at)
@@ -265,9 +283,18 @@ async def on_message(message):
             m=d5[10]
     if message.author == client.user:
         return
-    if message.content == '課表':
+    if message.content == '$課表':
         await message.channel.send('現在是'+datetime.now().strftime('%m月%d日 %H:%M'))
         await message.channel.send('現在是:'+k+'時間')
         await message.channel.send('接下來是:'+m+'時間')
+    if message.content == '$天氣':
+        await message.channel.send(" 溫度= " +
+                    str(current_temperature-273.15)[0:4]+'°C' +
+        "\n 大氣壓力= " +
+                    str(current_pressure)+' hPa'+
+        "\n 濕度= " +
+                    str(current_humidity) +'%'+
+        "\n 天氣=  " +
+                    str(weather_description))
 
 client.run(TOKEN)
