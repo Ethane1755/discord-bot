@@ -4,6 +4,7 @@ import discord
 from datetime import datetime
 from discord.ext import commands
 from dotenv import load_dotenv
+import glob, random
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_BOT_SECRET')
@@ -296,5 +297,11 @@ async def on_message(message):
                     str(current_humidity) +'%'+
         "\n 天氣=  " +
                     str(weather_description))
+    if message.content == '$圖':
+        path="D:/USER/Documents/GitHub/Code/Python/Discord/pics"
+        files=os.listdir(path)
+        d=random.choice(files)
+        picture = discord.File("D:/USER/Documents/GitHub/Code/Python/Discord/pics/"+d)
+        await message.channel.send(file=picture)
 
 client.run(TOKEN)
