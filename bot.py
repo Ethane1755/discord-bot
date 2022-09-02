@@ -311,4 +311,5 @@ async def on_message(message):
         picture = discord.File(path+'/'+d)
         await message.channel.send(file=picture)
 
+
 client.run(TOKEN)
