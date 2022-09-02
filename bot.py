@@ -304,7 +304,13 @@ async def on_message(message):
         path="D:/USER/Documents/GitHub/Code/Python/Discord/pics"
         files=os.listdir(path)
         d=random.choice(files)
-        picture = discord.File("D:/USER/Documents/GitHub/Code/Python/Discord/pics/"+d)
+        picture = discord.File(path+'/'+d)
+        await message.channel.send(file=picture)
+    if message.content == '$h':
+        path="D:/USER/Documents/GitHub/Code/Python/Discord/picsh"
+        files=os.listdir(path)
+        d=random.choice(files)
+        picture = discord.File(path+'/'+d)
         await message.channel.send(file=picture)
 
 client.run(TOKEN)
