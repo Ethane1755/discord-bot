@@ -33,12 +33,10 @@ client = commands.Bot(command_prefix="!", intents=intents)
 @client.event
 async def on_message(message):
     time=str(message.created_at)
-    print(time)
     a=5
     b=time[11:16]
     b=b[0:2]+b[3:5]
     c=list(b)
-    print(c)
     if c[0]==0:
         c.remove(c[0])
         b=int("".join(c))
@@ -49,7 +47,7 @@ async def on_message(message):
         b=b-2400
     else:
         b=b
-    print(a,b)
+        
     d1=['早自習','音樂','體育','英文','英文','吃飯睡覺打手遊','美術','美術','打掃','物理','放學','下課']
     d2=['早自習','數學','數學','國文','國文','吃飯睡覺打手遊','班會','歷史','打掃','歷史','放學','下課']
     d3=['早自習','英文','英文','體育','化學','吃飯睡覺打手遊','耍廢','更廢','打掃','超廢','放學','下課']
