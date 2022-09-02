@@ -13,8 +13,6 @@ TOKEN1= os.getenv('WEATHER_API')
 from geopy import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 
-
-
 base_url = "http://api.openweathermap.org/data/2.5/weather?"
 city_name = "Taipei"
 complete_url = base_url + "appid=" + TOKEN1 + "&q=" + city_name
@@ -315,14 +313,21 @@ async def on_message(message):
         d=random.choice(files)
         picture = discord.File(path+'/'+d)
         await message.channel.send(file=picture)
-    if message.content.startswith('$geo'):
+    if message.content.startswith('$地點'):
             locator = Nominatim(user_agent='name_of_your_app')
             geocode = RateLimiter(locator.geocode, min_delay_seconds=1)
-            a = str(message.content)[5:]
-            print(a)
+            a = str(message.content)[4:]
             location = locator.geocode(a)
             addr = location.address
             lat_lon = location.latitude, location.longitude
             await message.channel.send(addr+"\n"+str(lat_lon))
-
+    if message.content=='$help':
+        embed=discord.Embed(title="指令介紹", url="https://ethane1755.github.io/",description="⬆歡迎關注窩的網站", color=0xFF5733)
+        embed.set_author(name=message.author.display_name, url="https://ethane1755.github.io/", icon_url="https://i.postimg.cc/4xLzfTHq/15000971312403.jpg")
+        embed.add_field(name="$課表", value="現在時間、目前課程、下一節課程", inline=False)
+        embed.add_field(name="$天氣(以台北市為準)", value="輸出溫度、大氣壓力、濕度、天氣概述", inline=False) 
+        embed.add_field(name="$地點{空格}{地點，中英文皆可}", value="輸出地址、經緯度 \n ex:$地點 中正紀念堂", inline=False) 
+        embed.add_field(name="$圖", value="來自Pixiv的香圖，有推薦圖庫歡迎私訊", inline=False) 
+        embed.add_field(name="$h", value="慎用!!!來自Pixiv的色圖，有推薦圖庫歡迎私訊", inline=False) 
+        await message.channel.send(embed=embed)
 client.run(TOKEN)
