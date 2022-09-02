@@ -7,7 +7,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_BOT_SECRET')
+TOKEN = os.getenv('DISCORD_BOT_SECRET_1')
 TOKEN1= os.getenv('WEATHER_API')
 
 base_url = "http://api.openweathermap.org/data/2.5/weather?"
@@ -33,12 +33,10 @@ client = commands.Bot(command_prefix="!", intents=intents)
 @client.event
 async def on_message(message):
     time=str(message.created_at)
-    print(time)
-    a=5
+    a=4
     b=time[11:16]
     b=b[0:2]+b[3:5]
     c=list(b)
-    print(c)
     if c[0]==0:
         c.remove(c[0])
         b=int("".join(c))
@@ -49,12 +47,11 @@ async def on_message(message):
         b=b-2400
     else:
         b=b
-    print(a,b)
-    d1=['早自習','音樂','體育','英文','英文','吃飯睡覺打手遊','美術','美術','打掃','物理','放學','下課']
-    d2=['早自習','數學','數學','國文','國文','吃飯睡覺打手遊','班會','歷史','打掃','歷史','放學','下課']
-    d3=['早自習','英文','英文','體育','化學','吃飯睡覺打手遊','耍廢','更廢','打掃','超廢','放學','下課']
-    d4=['早自習','國文','國文','選修物理','選修物理','吃飯睡覺打手遊','音樂','數學','打掃','數學','放學','下課']
-    d5=['早自習','基本設計','基本設計','多元選修','多元選修','吃飯睡覺打手遊','社團課','選修化學','打掃','選修化學','放學','下課']
+    d1=['早自習','國文','數學','體育','英文','吃飯睡覺打手遊','美術','美術','打掃','化學','放學','下課']
+    d2=['早自習','班會','公民','歷史','選修','吃飯睡覺打手遊','國文','數學','打掃','英文','放學','下課']
+    d3=['早自習','物理','英文','數學','國文','吃飯睡覺打手遊','歷史','耍廢','打掃','更廢','放學','下課']
+    d4=['早自習','音樂','國文','生物','數學','吃飯睡覺打手遊','物理','體育','打掃','英文','放學','下課']
+    d5=['早自習','音樂','專題','物理','公民','吃飯睡覺打手遊','生物','化學','打掃','社團','放學','下課']
     if a==1:
         if b<=810:
             k=d1[0]
@@ -287,11 +284,11 @@ async def on_message(message):
             m=d5[10]
     if message.author == client.user:
         return
-    if message.content == '$課表':
+    if message.content == '課表':
         await message.channel.send('現在是'+datetime.now().strftime('%m月%d日 %H:%M'))
         await message.channel.send('現在是:'+k+'時間')
         await message.channel.send('接下來是:'+m+'時間')
-    if message.content == '$天氣':
+    if message.content == '天氣':
         await message.channel.send(" 溫度= " +
                     str(current_temperature-273.15)[0:4]+'°C' +
         "\n 大氣壓力= " +
@@ -300,11 +297,5 @@ async def on_message(message):
                     str(current_humidity) +'%'+
         "\n 天氣=  " +
                     str(weather_description))
-    if message.content == '$圖':
-        path="D:/USER/Documents/GitHub/Code/Python/Discord/pics"
-        files=os.listdir(path)
-        d=random.choice(files)
-        picture = discord.File("D:/USER/Documents/GitHub/Code/Python/Discord/pics/"+d)
-        await message.channel.send(file=picture)
 
 client.run(TOKEN)
