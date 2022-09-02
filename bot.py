@@ -10,6 +10,11 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_BOT_SECRET')
 TOKEN1= os.getenv('WEATHER_API')
 
+from geopy import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+
+
+
 base_url = "http://api.openweathermap.org/data/2.5/weather?"
 city_name = "Taipei"
 complete_url = base_url + "appid=" + TOKEN1 + "&q=" + city_name
@@ -32,6 +37,8 @@ client = commands.Bot(command_prefix="!", intents=intents)
 
 @client.event
 async def on_message(message):
+    if message.author == client.user:
+        return
     time=str(message.created_at)
     a=5
     b=time[11:16]
@@ -283,8 +290,6 @@ async def on_message(message):
         if b>1600:
             k=d5[10]
             m=d5[10]
-    if message.author == client.user:
-        return
     if message.content == '$課表':
         await message.channel.send('現在是'+datetime.now().strftime('%m月%d日 %H:%M'))
         await message.channel.send('現在是:'+k+'時間')
@@ -310,6 +315,14 @@ async def on_message(message):
         d=random.choice(files)
         picture = discord.File(path+'/'+d)
         await message.channel.send(file=picture)
-
+    if message.content.startswith('$geo'):
+            locator = Nominatim(user_agent='name_of_your_app')
+            geocode = RateLimiter(locator.geocode, min_delay_seconds=1)
+            a = str(message.content)[5:]
+            print(a)
+            location = locator.geocode(a)
+            addr = location.address
+            lat_lon = location.latitude, location.longitude
+            await message.channel.send(addr+"\n"+str(lat_lon))
 
 client.run(TOKEN)
