@@ -1,7 +1,6 @@
 import os
 import requests
 import discord
-import random
 from datetime import datetime
 from discord.ext import commands
 from dotenv import load_dotenv
