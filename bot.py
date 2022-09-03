@@ -338,4 +338,7 @@ async def on_message(message):
         embed.add_field(name="$圖", value="來自Pixiv的香圖，有推薦圖庫歡迎私訊", inline=False) 
         embed.add_field(name="$h", value="慎用!!!來自Pixiv的色圖，有推薦圖庫歡迎私訊", inline=False) 
         await message.channel.send(embed=embed)
+    if message.content=='$help':
+        pi = discord.File('D:/USER/Documents/GitHub/Code/Python/Discord/a.html')
+        await message.channel.send(file=pi)
 client.run(TOKEN,reconnect=True)
