@@ -38,7 +38,10 @@ async def on_message(message):
     if message.author == client.user:
         return
     time=str(message.created_at)
-    a=5
+    a=time[0:10]
+    a=a.split("-")
+    a="".join(a)
+    a=datetime.strptime(a,"%Y%m%d").weekday()+1
     b=time[11:16]
     b=b[0:2]+b[3:5]
     c=list(b)
@@ -288,6 +291,9 @@ async def on_message(message):
         if b>1600:
             k=d5[10]
             m=d5[10]
+    if a>5:
+        k='睡覺'
+        m='耍廢'
     if message.content == '$課表':
         await message.channel.send('現在是'+datetime.now().strftime('%m月%d日 %H:%M'))
         await message.channel.send('現在是:'+k+'時間')
@@ -330,4 +336,4 @@ async def on_message(message):
         embed.add_field(name="$圖", value="來自Pixiv的香圖，有推薦圖庫歡迎私訊", inline=False) 
         embed.add_field(name="$h", value="慎用!!!來自Pixiv的色圖，有推薦圖庫歡迎私訊", inline=False) 
         await message.channel.send(embed=embed)
-client.run(TOKEN)
+client.run(TOKEN,reconnect=True)
