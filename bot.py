@@ -38,6 +38,7 @@ async def on_message(message):
     if message.author == client.user:
         return
     time=str(message.created_at)
+    print(time)
     a=time[0:10]
     a=a.split("-")
     a="".join(a)
@@ -53,6 +54,7 @@ async def on_message(message):
     b=b+800
     if b>2400:
         b=b-2400
+        a=a-1
     else:
         b=b
         
