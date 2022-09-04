@@ -5,13 +5,12 @@ import random
 from datetime import datetime
 from discord.ext import commands
 from dotenv import load_dotenv
+from geopy import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_BOT_SECRET')
 TOKEN1= os.getenv('WEATHER_API')
-
-from geopy import Nominatim
-from geopy.extra.rate_limiter import RateLimiter
 
 base_url = "http://api.openweathermap.org/data/2.5/weather?"
 city_name = "Taipei"
@@ -26,8 +25,6 @@ if x["cod"] != "404":
     current_humidity = y["humidity"]
     z = x["weather"]
     weather_description = z[0]["description"]
-else:
-    print(" City Not Found ")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -37,8 +34,8 @@ client = commands.Bot(command_prefix="!", intents=intents)
 async def on_message(message):
     if message.author == client.user:
         return
+
     time=str(message.created_at)
-    print(time)
     a=time[0:10]
     a=a.split("-")
     a="".join(a)
@@ -296,10 +293,12 @@ async def on_message(message):
     if a>5:
         k='睡覺'
         m='耍廢'
+
     if message.content == '$課表':
         await message.channel.send('現在是'+datetime.now().strftime('%m月%d日 %H:%M'))
         await message.channel.send('現在是:'+k+'時間')
         await message.channel.send('接下來是:'+m+'時間')
+
     if message.content == '$天氣':
         await message.channel.send(" 溫度= " +
                     str(current_temperature-273.15)[0:4]+'°C' +
@@ -309,18 +308,21 @@ async def on_message(message):
                     str(current_humidity) +'%'+
         "\n 天氣=  " +
                     str(weather_description))
+
     if message.content == '$圖':
         path="D:/USER/Documents/GitHub/Code/Python/Discord/pics"
         files=os.listdir(path)
         d=random.choice(files)
         picture = discord.File(path+'/'+d)
         await message.channel.send(file=picture)
+
     if message.content == '$h':
         path="D:/USER/Documents/GitHub/Code/Python/Discord/picsh"
         files=os.listdir(path)
         d=random.choice(files)
         picture = discord.File(path+'/'+d)
         await message.channel.send(file=picture)
+
     if message.content.startswith('$地點'):
             locator = Nominatim(user_agent='name_of_your_app')
             geocode = RateLimiter(locator.geocode, min_delay_seconds=1)
@@ -329,6 +331,7 @@ async def on_message(message):
             addr = location.address
             lat_lon = location.latitude, location.longitude
             await message.channel.send(addr+"\n"+str(lat_lon))
+
     if message.content=='$help':
         embed=discord.Embed(title="指令介紹", url="https://ethane1755.github.io/",description="⬆歡迎關注窩的網站", color=0xFF5733)
         embed.set_author(name=message.author.display_name, url="https://ethane1755.github.io/", icon_url="https://i.postimg.cc/4xLzfTHq/15000971312403.jpg")
@@ -338,7 +341,5 @@ async def on_message(message):
         embed.add_field(name="$圖", value="來自Pixiv的香圖，有推薦圖庫歡迎私訊", inline=False) 
         embed.add_field(name="$h", value="慎用!!!來自Pixiv的色圖，有推薦圖庫歡迎私訊", inline=False) 
         await message.channel.send(embed=embed)
-    if message.content=='$help':
-        pi = discord.File('D:/USER/Documents/GitHub/Code/Python/Discord/a.html')
-        await message.channel.send(file=pi)
+
 client.run(TOKEN,reconnect=True)
