@@ -51,7 +51,7 @@ async def on_message(message):
     b=b+800
     if b>2400:
         b=b-2400
-        a=a-1
+        a=a+1
     else:
         b=b
         
