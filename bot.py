@@ -2,6 +2,8 @@ import os
 import requests
 import discord
 import random
+import csv
+import pandas as pd
 from datetime import datetime
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -341,5 +343,34 @@ async def on_message(message):
         embed.add_field(name="$圖", value="來自Pixiv的香圖，有推薦圖庫歡迎私訊", inline=False) 
         embed.add_field(name="$h", value="慎用!!!來自Pixiv的色圖，有推薦圖庫歡迎私訊", inline=False) 
         await message.channel.send(embed=embed)
+    if message.content.startswith('$t'):
+        initial=message.content[3:-8]
+        time=message.content[-8:]
+        with open('data.csv', 'a', newline='',encoding='utf-8') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([initial,time])
+        test=pd.read_csv('data.csv', index_col=0, header=None, squeeze=True,encoding='utf-8').to_dict()
+        now=datetime.now()
+        d1={}
+        d2={}
+        for key, value in test.items():
+            initial=datetime.strptime(str(value),'%Y%m%d')
+            k=(initial-now).days+1
+            if k>0:
+                d1[key]=k
+            if k==0:
+                d2[key]=k
+        await message.channel.send('今日代辦事項:\n')
+        d2={k: v for k, v in sorted(d2.items(), key=lambda item: item[1])}
+        for key in d2:
+            p=str(key)
+            p1=str(d2[key])
+            await message.channel.send(p)
+        await message.channel.send('其他代辦事項:\n')
+        d1={k: v for k, v in sorted(d1.items(), key=lambda item: item[1])}
+        for key in d1:
+            p=str(key)
+            p1=str(d1[key])
+            await message.channel.send(p+' -- '+p1+'天')
 
 client.run(TOKEN,reconnect=True)
