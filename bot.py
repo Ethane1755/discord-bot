@@ -360,13 +360,13 @@ async def on_message(message):
                 d1[key]=k
             if k==0:
                 d2[key]=k
-        await message.channel.send('今日代辦事項:\n')
+        await message.channel.send('今日待辦事項:\n')
         d2={k: v for k, v in sorted(d2.items(), key=lambda item: item[1])}
         for key in d2:
             p=str(key)
             p1=str(d2[key])
             await message.channel.send(p)
-        await message.channel.send('其他代辦事項:\n')
+        await message.channel.send('其他待辦事項:\n')
         d1={k: v for k, v in sorted(d1.items(), key=lambda item: item[1])}
         for key in d1:
             p=str(key)
