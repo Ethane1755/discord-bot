@@ -390,7 +390,6 @@ async def on_message(message):
         await message.channel.send('今日待辦事項:\n')
         for key in d2:
             p3=str(key)
-            p4=str(d2[key])
             await message.channel.send(p3)
         await message.channel.send('其他待辦事項:\n')
         d1={k: v for k, v in sorted(d1.items(), key=lambda item: item[1])}
