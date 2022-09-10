@@ -6,6 +6,7 @@ import csv
 import pandas as pd
 from datetime import datetime
 from discord.ext import commands
+from discord.ext import tasks
 from dotenv import load_dotenv
 from geopy import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
@@ -363,9 +364,33 @@ async def on_message(message):
         await message.channel.send('今日待辦事項:\n')
         d2={k: v for k, v in sorted(d2.items(), key=lambda item: item[1])}
         for key in d2:
+            p3=str(key)
+            p4=str(d2[key])
+            await message.channel.send(p3)
+        await message.channel.send('其他待辦事項:\n')
+        d1={k: v for k, v in sorted(d1.items(), key=lambda item: item[1])}
+        for key in d1:
             p=str(key)
-            p1=str(d2[key])
-            await message.channel.send(p)
+            p1=str(d1[key])
+            await message.channel.send(p+' -- '+p1+'天')
+    if message.content.startswith('$k'):
+        test=pd.read_csv('data.csv', index_col=0, header=None, squeeze=True,encoding='utf-8').to_dict()
+        now=datetime.now()
+        d1={}
+        d2={}
+        for key, value in test.items():
+            initial=datetime.strptime(str(value),'%Y%m%d')
+            k=(initial-now).days+1
+            if k>0:
+                d1[key]=k
+            if k==0:
+                d2[key]=k
+        d2={k: v for k, v in sorted(d2.items(), key=lambda item: item[1])}
+        await message.channel.send('今日待辦事項:\n')
+        for key in d2:
+            p3=str(key)
+            p4=str(d2[key])
+            await message.channel.send(p3)
         await message.channel.send('其他待辦事項:\n')
         d1={k: v for k, v in sorted(d1.items(), key=lambda item: item[1])}
         for key in d1:
