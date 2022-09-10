@@ -6,7 +6,6 @@ import csv
 import pandas as pd
 from datetime import datetime
 from discord.ext import commands
-from discord.ext import tasks
 from dotenv import load_dotenv
 from geopy import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
@@ -336,14 +335,14 @@ async def on_message(message):
             await message.channel.send(addr+"\n"+str(lat_lon))
 
     if message.content=='$help':
-        embed=discord.Embed(title="指令介紹", url="https://ethane1755.github.io/",description="⬆歡迎關注窩的網站", color=0xFF5733)
+        embed=discord.Embed(title="指令介紹", url="https://ethane1755.github.io/",description="⬆歡迎關注窩的網站", color=0x61afef)
         embed.set_author(name=message.author.display_name, url="https://ethane1755.github.io/", icon_url="https://i.postimg.cc/4xLzfTHq/15000971312403.jpg")
         embed.add_field(name="$課表", value="現在時間、目前課程、下一節課程", inline=False)
         embed.add_field(name="$天氣(以台北市為準)", value="輸出溫度、大氣壓力、濕度、天氣概述", inline=False) 
         embed.add_field(name="$地點{地點，中英文皆可}", value="輸出地址、經緯度 \n ex:$地點 中正紀念堂", inline=False) 
         embed.add_field(name="$圖", value="來自Pixiv的香圖，有推薦圖庫歡迎私訊", inline=False) 
         embed.add_field(name="$h", value="慎用!!!來自Pixiv的色圖，有推薦圖庫歡迎私訊", inline=False) 
-        embed.add_field(name="$t{事件}{日期(YYYYMMDD)}", value="輸入接下來的排程", inline=False)
+        embed.add_field(name="$t{事件}{日期(YYYYMMDD)}", value="輸入接下來的排程\n ex:$t 國慶日 20221010", inline=False)
         embed.add_field(name="$k", value="查看倒數、今日須辦事項", inline=False)
         await message.channel.send(embed=embed)
     if message.content.startswith('$t'):
