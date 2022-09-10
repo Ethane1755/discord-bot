@@ -340,9 +340,11 @@ async def on_message(message):
         embed.set_author(name=message.author.display_name, url="https://ethane1755.github.io/", icon_url="https://i.postimg.cc/4xLzfTHq/15000971312403.jpg")
         embed.add_field(name="$課表", value="現在時間、目前課程、下一節課程", inline=False)
         embed.add_field(name="$天氣(以台北市為準)", value="輸出溫度、大氣壓力、濕度、天氣概述", inline=False) 
-        embed.add_field(name="$地點{空格}{地點，中英文皆可}", value="輸出地址、經緯度 \n ex:$地點 中正紀念堂", inline=False) 
+        embed.add_field(name="$地點{地點，中英文皆可}", value="輸出地址、經緯度 \n ex:$地點 中正紀念堂", inline=False) 
         embed.add_field(name="$圖", value="來自Pixiv的香圖，有推薦圖庫歡迎私訊", inline=False) 
         embed.add_field(name="$h", value="慎用!!!來自Pixiv的色圖，有推薦圖庫歡迎私訊", inline=False) 
+        embed.add_field(name="$t{事件}{日期(YYYYMMDD)}", value="輸入接下來的排程", inline=False)
+        embed.add_field(name="$k", value="查看倒數、今日須辦事項", inline=False)
         await message.channel.send(embed=embed)
     if message.content.startswith('$t'):
         initial=message.content[3:-8]
